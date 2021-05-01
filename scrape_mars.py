@@ -13,7 +13,7 @@ def scraper():
 
 
     executable_path = {'executable_path': ChromeDriverManager().install()}
-    browser = Browser('chrome', **executable_path, headless=False)
+    browser = Browser('chrome', **executable_path, headless=True)
 
 
     browser.visit(space_news_url)
