@@ -79,7 +79,7 @@ def scraper():
 
     hemis = browser.find_by_css('a.product-item img')
 
-    page_urls = []
+    dic_list = []
     all_titles = []
     all_images = []
 
@@ -111,14 +111,19 @@ def scraper():
         #return to previous page
         browser.back()
 
-    mars_list_dics = dict(zip(all_titles, all_images))
+    i = 0
+    for title in all_titles:
+        dic = {'name' : title, 'img': all_images[i]}
+        dic_list.append(dic)
+        i = i+1
+
 
 
     mars_scrapped = {'news_title': news_title,
                      'news_info':news_p,
                      'featured_image':mars_img,
                      'html_table': str(results3[0]),
-                     'mars hemispheres': mars_list_dics}
+                     'mars_hemispheres': dic_list}
 
     browser.quit()
 

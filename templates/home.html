@@ -28,11 +28,33 @@
     <div class='row'>
         <div class='col-md-6'>
             <p><h4>Today's Featured Image</h4></p>
-            <img src ={{mars_info.featured_image | safe }} alt='featured mars image'>
+            <img src ='{{mars_info.featured_image}}' alt='featured mars image' height=300 width =400>
 
         </div>
         <div class='col-md-6'>
             {{mars_info.html_table | safe}}
+        </div>
+    </div>
+    <hr>
+
+
+    <div class='row'>
+        <div class='col-md-3'>
+            <div class='text-center'>
+                <h4>{{mars_info.mars_hemispheres[0].name}}</h4>
+                <img src ='{{mars_info.mars_hemispheres[0].img}}' alt='featured mars image' height=250 width =250>
+            </div>
+        </div>
+        <div class='col-md-3'>
+            <h4>{{mars_info.mars_hemispheres[1].name}}</h4>
+            <img src ='{{mars_info.mars_hemispheres[1].img}}' alt='featured mars image' height=250 width =250>
+        </div>
+        <div class='col-md-3'>                
+            <h4>{{mars_info.mars_hemispheres[2].name}}</h4>
+            <img src ='{{mars_info.mars_hemispheres[2].img}}' alt='featured mars image' height=250 width =250></div>
+        <div class='col-md-3'>
+            <h4>{{mars_info.mars_hemispheres[3].name}}</h4>
+            <img src ='{{mars_info.mars_hemispheres[3].img}}' alt='featured mars image' height=250 width =250>
         </div>
     </div>
 
