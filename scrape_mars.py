@@ -1,19 +1,20 @@
 import os
-from bs4 import BeautifulSoup as bs
+from bs4 import BeautifulSoup
 import requests
 from splinter import Browser
 import time
 from webdriver_manager.chrome import ChromeDriverManager
 
-executable_path = {'executable_path': ChromeDriverManager().install()}
-browser = Browser('chrome', **executable_path, headless=False)
+
 
 def scraper():
+    
     space_news_url = 'https://redplanetscience.com/'
 
 
     executable_path = {'executable_path': ChromeDriverManager().install()}
     browser = Browser('chrome', **executable_path, headless=False)
+
 
     browser.visit(space_news_url)
 
@@ -22,6 +23,9 @@ def scraper():
 
     html = browser.html
     soup = BeautifulSoup(html, 'html.parser')
+
+
+
     results = soup.find_all('div', class_="list_text")
 
     for result in results:
@@ -29,8 +33,6 @@ def scraper():
         news_p = result.find('div', class_='article_teaser_body').text
         break
 
-    print(news_title)
-    print(news_p)
 
     space_image_url = 'https://spaceimages-mars.com/'
 
@@ -43,9 +45,10 @@ def scraper():
     results2 = soup.find_all('div', class_='header')
 
     for result in results2:
-        mars_img = result.find('img', class_="headerimage fade-in")['src']
+        mars_img = space_image_url + result.find('img', class_="headerimage fade-in")['src']
 
-    print(mars_img)
+
+
 
     mars_facts_url = 'https://galaxyfacts-mars.com/'
 
@@ -55,9 +58,14 @@ def scraper():
     html = browser.html
     soup = BeautifulSoup(html, 'html.parser')
 
+#Visit the Mars Facts webpage here and use Pandas to scrape the table containing facts about
+#the planet including Diameter, Mass, etc.
+
+
+
     results3 = soup.find_all('table', class_="table table-striped")
 
-    print(results3)
+    fun_facts_table = str(results3[0])
 
     hemi_url = 'https://marshemispheres.com/'
 
@@ -67,12 +75,13 @@ def scraper():
     html = browser.html
     soup = BeautifulSoup(html, 'html.parser')
 
+
+
     hemis = browser.find_by_css('a.product-item img')
-    print(len(hemis))
 
     page_urls = []
     all_titles = []
-    all_links = []
+    all_images = []
 
     #runs through all four of the links
     #runs through each hemi page
@@ -86,24 +95,32 @@ def scraper():
         print(hemi_titles)
         
         #stores image
-        url = browser.find_by_css('li.href')
-        print(url)
+        html = browser.html
+        soup = BeautifulSoup(html, 'html.parser')
+    
+    
+    
+        hemi_img = hemi_url + soup.find('img', class_='wide-image')['src']
+        print(hemi_img)
         
         #store page info in lists
         all_titles.append(hemi_titles)
-        all_links.append(url)
+        all_images.append(hemi_img)
     
         
         #return to previous page
         browser.back()
-    
-    mars_list_dics = dict(zip(all_titles, all_links))
 
-    mars_scrapped = {'news title': news_title,
-                     'news info':news_p,
-                     'featured image':mars_img,
-                     'html table': results3,
+    mars_list_dics = dict(zip(all_titles, all_images))
+
+
+    mars_scrapped = {'news_title': news_title,
+                     'news_info':news_p,
+                     'featured_image':mars_img,
+                     'html_table': str(results3[0]),
                      'mars hemispheres': mars_list_dics}
+
+    browser.quit()
 
     return mars_scrapped
 
